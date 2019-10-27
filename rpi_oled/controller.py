@@ -67,23 +67,23 @@ class Controller:
         self.pressed = []
         self.released = []
 
-        if button_A.value:
+        if not button_A.value:
             self.pressed.append(Button.A)
 
-        if button_B.value:
+        if not button_B.value:
             self.pressed.append(Button.B)
 
-        if button_U.value:
+        if not button_U.value:
             self.pressed.append(Button.UP)
 
-        if button_L.value:
+        if not button_L.value:
             self.pressed.append(Button.LEFT)
 
-        if button_R.value:
+        if not button_R.value:
             self.pressed.append(Button.RIGHT)
 
-        if button_D.value:
+        if not button_D.value:
             self.pressed.append(Button.DOWN)
 
-        if button_C.value:
+        if not button_C.value:
             self.pressed.append(Button.CENTER)

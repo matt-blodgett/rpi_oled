@@ -31,6 +31,16 @@ keys = Controller()
 while True:
     keys.read_state()
 
+    if Button.A not in keys.pressed:
+        draw.ellipse((70, 40, 90, 60), outline=255, fill=0)
+    else:
+        draw.ellipse((70, 40, 90, 60), outline=255, fill=1)
+
+    if Button.B not in keys.pressed:
+        draw.ellipse((100, 20, 120, 40), outline=255, fill=0)
+    else:
+        draw.ellipse((100, 20, 120, 40), outline=255, fill=1)
+
     if Button.UP not in keys.pressed:
         draw.polygon([(20, 20), (30, 2), (40, 20)], outline=255, fill=0)
     else:
@@ -55,16 +65,6 @@ while True:
         draw.rectangle((20, 22, 40, 40), outline=255, fill=0)
     else:
         draw.rectangle((20, 22, 40, 40), outline=255, fill=1)
-
-    if Button.A not in keys.pressed:
-        draw.ellipse((70, 40, 90, 60), outline=255, fill=0)
-    else:
-        draw.ellipse((70, 40, 90, 60), outline=255, fill=1)
-
-    if Button.B not in keys.pressed:
-        draw.ellipse((100, 20, 120, 40), outline=255, fill=0)
-    else:
-        draw.ellipse((100, 20, 120, 40), outline=255, fill=1)
 
     disp.image(image)
     disp.show()
