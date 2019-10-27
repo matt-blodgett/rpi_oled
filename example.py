@@ -1,10 +1,10 @@
-from rpi_oled.display import Display
-from rpi_oled.controller import Button
-from rpi_oled.controller import Controller
+from rpi_oled.display.oled import Display
+from rpi_oled.controller.base import Button
+from rpi_oled.controller.oled import OledController
 
 
 display = Display()
-keys = Controller()
+keys = OledController()
 
 
 while True:
