@@ -23,7 +23,7 @@ class OledController(BaseController):
             Button.CENTER: DigitalInOut(board.D4)
         }
 
-        for button in self._oled_buttons:
+        for button in self._oled_buttons.values():
             button.direction = Direction.INPUT
             button.pull = Pull.UP
 
