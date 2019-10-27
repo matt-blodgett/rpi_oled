@@ -1,3 +1,5 @@
+import enum
+
 import board
 import busio
 
@@ -6,8 +8,6 @@ import adafruit_ssd1306
 from digitalio import DigitalInOut
 from digitalio import Direction
 from digitalio import Pull
-
-import enum
 
 
 class Button(enum.Enum):
