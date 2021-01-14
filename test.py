@@ -48,12 +48,12 @@ try:
 
         display.update()
 
+        controller.update_state()
         if Button.CENTER in controller.buttons.pressed and Button.A in controller.buttons.pressed:
             display.clear()
-            exit(1)
+            break
 
 except KeyboardInterrupt:
     display.clear()
-
-exit(1)
+    exit(1)
 
