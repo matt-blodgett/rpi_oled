@@ -1,3 +1,5 @@
+from PIL import Image
+
 from rpi_oled import Controller
 from rpi_oled import Button
 from rpi_oled import Display
@@ -52,6 +54,13 @@ def main():
             if controller.is_pressed(Button.CENTER) and controller.is_pressed(Button.A):
                 display.clear()
                 break
+
+            controller.update_buttons_state()
+            if controller.is_pressed(Button.CENTER) and controller.is_pressed(Button.A) and controller.is_pressed(Button.B):
+                display.clear()
+                cat_image = Image.open('happycat_oled_64.ppm').convert('1')
+                display.display.image(cat_image)
+                display.display.show()
 
     except KeyboardInterrupt:
         display.clear()
