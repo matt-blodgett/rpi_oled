@@ -16,7 +16,7 @@ class Button(enum.Enum):
     CENTER = 'M'
 
 
-class Controller:
+class ButtonStates:
 
     def __init__(self):
         self.pressed = []
@@ -30,7 +30,13 @@ class Controller:
             Button.CENTER
         ]
 
-        self._buttons = {
+
+class Controller:
+
+    def __init__(self):
+        self.buttons = ButtonStates()
+
+        self._button_to_pin_map = {
             Button.A: DigitalInOut(board.D5),
             Button.B: DigitalInOut(board.D6),
             Button.UP: DigitalInOut(board.D17),
@@ -40,14 +46,14 @@ class Controller:
             Button.CENTER: DigitalInOut(board.D4)
         }
 
-        for button in self._buttons.values():
-            button.direction = Direction.INPUT
-            button.pull = Pull.UP
+        for pin in self._button_to_pin_map.values():
+            pin.direction = Direction.INPUT
+            pin.pull = Pull.UP
 
-    def read_state(self):
-        self.pressed = []
-        self.released = []
+    def update_state(self):
+        self.buttons.pressed = []
+        self.buttons.released = []
 
-        for key, button in self._buttons.items():
-            if not button.value:
-                self.pressed.append(key)
+        for button, pin in self._button_to_pin_map.items():
+            if not pin.value:
+                self.buttons.pressed.append(button)

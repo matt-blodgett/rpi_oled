@@ -25,3 +25,7 @@ class Display:
     def update(self):
         self.display.image(self.image)
         self.display.show()
+
+    def clear(self):
+        self.display.fill(0)
+        self.display.show()
