@@ -1,10 +1,10 @@
+import time
+
 from PIL import Image
 
 from rpi_oled import Controller
 from rpi_oled import Button
 from rpi_oled import Display
-
-import time
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
 
     try:
         while True:
-            controller.update_buttons_state()
+            controller.update()
 
             if controller.is_released(Button.A):
                 display.draw.ellipse((100, 20, 120, 40), outline=255, fill=0)
@@ -52,20 +52,19 @@ def main():
 
             display.update()
 
-            controller.update_buttons_state()
-            if controller.is_pressed(Button.CENTER) and controller.is_pressed(Button.A):
+            controller.update()
+            if controller.is_pressed_all([Button.A, Button.CENTER]):
                 display.clear()
                 break
 
-            controller.update_buttons_state()
-            if controller.is_pressed(Button.CENTER) and controller.is_pressed(Button.B):
-
+            controller.update()
+            if controller.is_pressed_all([Button.A, Button.UP]):
                 img = Image.open('happycat_oled_64.ppm').convert('1')
                 display.set_image(img)
 
-                while controller.is_pressed(Button.CENTER) and controller.is_pressed(Button.B):
+                while controller.is_pressed_all([Button.A, Button.UP]):
                     time.sleep(0.5)
-                    controller.update_buttons_state()
+                    controller.update()
 
     except KeyboardInterrupt:
         display.clear()
