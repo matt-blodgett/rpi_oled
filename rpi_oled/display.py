@@ -22,10 +22,15 @@ class Display:
         self.draw = ImageDraw.Draw(self.image)
         self.draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
-    def update(self):
+    def set_image(self, image: Image) -> None:
+        self.display.fill(0)
+        self.display.image(image)
+        self.display.show()
+
+    def update(self) -> None:
         self.display.image(self.image)
         self.display.show()
 
-    def clear(self):
+    def clear(self) -> None:
         self.display.fill(0)
         self.display.show()
