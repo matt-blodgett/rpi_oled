@@ -4,6 +4,8 @@ from rpi_oled import Controller
 from rpi_oled import Button
 from rpi_oled import Display
 
+import time
+
 
 def main():
     controller = Controller()
@@ -56,11 +58,14 @@ def main():
                 break
 
             controller.update_buttons_state()
-            if controller.is_pressed(Button.CENTER) and controller.is_pressed(Button.A) and controller.is_pressed(Button.B):
+            if controller.is_pressed(Button.CENTER) and controller.is_pressed(Button.B):
                 display.clear()
                 cat_image = Image.open('happycat_oled_64.ppm').convert('1')
                 display.display.image(cat_image)
                 display.display.show()
+                while controller.is_pressed(Button.CENTER) and controller.is_pressed(Button.B):
+                    time.sleep(0.5)
+                    controller.update_buttons_state()
 
     except KeyboardInterrupt:
         display.clear()
