@@ -1,9 +1,7 @@
 import enum
 
 import board
-from digitalio import DigitalInOut
-from digitalio import Direction
-from digitalio import Pull
+import digitalio
 
 
 class Button(enum.Enum):
@@ -16,11 +14,11 @@ class Button(enum.Enum):
     CENTER = 'M'
 
 
-class ButtonStates:
+class Controller:
 
     def __init__(self):
-        self.pressed = []
-        self.released = [
+        self.buttons_pressed = []
+        self.buttons_released = [
             Button.A,
             Button.B,
             Button.UP,
@@ -30,30 +28,26 @@ class ButtonStates:
             Button.CENTER
         ]
 
-
-class Controller:
-
-    def __init__(self):
-        self.buttons = ButtonStates()
-
         self._button_to_pin_map = {
-            Button.A: DigitalInOut(board.D5),
-            Button.B: DigitalInOut(board.D6),
-            Button.UP: DigitalInOut(board.D17),
-            Button.LEFT: DigitalInOut(board.D27),
-            Button.RIGHT: DigitalInOut(board.D23),
-            Button.DOWN: DigitalInOut(board.D22),
-            Button.CENTER: DigitalInOut(board.D4)
+            Button.A: digitalio.DigitalInOut(board.D6),
+            Button.B: digitalio.DigitalInOut(board.D5),
+            Button.UP: digitalio.DigitalInOut(board.D17),
+            Button.LEFT: digitalio.DigitalInOut(board.D27),
+            Button.RIGHT: digitalio.DigitalInOut(board.D23),
+            Button.DOWN: digitalio.DigitalInOut(board.D22),
+            Button.CENTER: digitalio.DigitalInOut(board.D4)
         }
 
         for pin in self._button_to_pin_map.values():
-            pin.direction = Direction.INPUT
-            pin.pull = Pull.UP
+            pin.direction = digitalio.Direction.INPUT
+            pin.pull = digitalio.Pull.UP
 
-    def update_state(self):
-        self.buttons.pressed = []
-        self.buttons.released = []
+    def update_buttons_state(self) -> None:
+        self.buttons_pressed = [button for button, pin in self._button_to_pin_map.items() if not pin.value]
+        self.buttons_released = [button for button, pin in self._button_to_pin_map.items() if pin.value]
 
-        for button, pin in self._button_to_pin_map.items():
-            if not pin.value:
-                self.buttons.pressed.append(button)
+    def is_pressed(self, button: Button) -> bool:
+        return button in self.buttons_pressed
+
+    def is_released(self, button: Button) -> bool:
+        return button in self.buttons_released
