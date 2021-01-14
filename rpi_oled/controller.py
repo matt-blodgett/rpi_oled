@@ -18,8 +18,8 @@ class Button(enum.Enum):
 class Controller:
 
     def __init__(self):
-        self.buttons_pressed = []
-        self.buttons_released = [
+        self._buttons_pressed = []
+        self._buttons_released = [
             Button.A,
             Button.B,
             Button.UP,
@@ -46,36 +46,36 @@ class Controller:
     def update(self) -> None:
         for button, pin in self._button_to_pin_map.items():
             if not pin.value:
-                self.buttons_pressed.append(button)
+                self._buttons_pressed.append(button)
             else:
-                self.buttons_released.append(button)
+                self._buttons_released.append(button)
 
     def is_pressed(self, button: Button) -> bool:
-        return button in self.buttons_pressed
+        return button in self._buttons_pressed
 
     def is_released(self, button: Button) -> bool:
-        return button in self.buttons_released
+        return button in self._buttons_released
 
     def is_pressed_all(self, buttons: typing.List[Button]) -> bool:
         for button in buttons:
-            if button not in self.buttons_pressed:
+            if button not in self._buttons_pressed:
                 return False
         return True
 
     def is_released_all(self, buttons: typing.List[Button]) -> bool:
         for button in buttons:
-            if button not in self.buttons_released:
+            if button not in self._buttons_released:
                 return False
         return True
 
     def is_pressed_any(self, buttons: typing.List[Button]) -> bool:
         for button in buttons:
-            if button in self.buttons_pressed:
+            if button in self._buttons_pressed:
                 return True
         return False
 
     def is_released_any(self, buttons: typing.List[Button]) -> bool:
         for button in buttons:
-            if button in self.buttons_released:
+            if button in self._buttons_released:
                 return True
         return False
