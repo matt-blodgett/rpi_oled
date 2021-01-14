@@ -1,19 +1,36 @@
-import board
+import enum
 
+import board
 from digitalio import DigitalInOut
 from digitalio import Direction
 from digitalio import Pull
 
-from .base import Button
-from .base import BaseController
+
+class Button(enum.Enum):
+    A = 'A'
+    B = 'B'
+    UP = 'U'
+    LEFT = 'L'
+    RIGHT = 'R'
+    DOWN = 'D'
+    CENTER = 'M'
 
 
-class OledController(BaseController):
+class Controller:
 
     def __init__(self):
-        super().__init__()
+        self.pressed = []
+        self.released = [
+            Button.A,
+            Button.B,
+            Button.UP,
+            Button.DOWN,
+            Button.LEFT,
+            Button.RIGHT,
+            Button.CENTER
+        ]
 
-        self._oled_buttons = {
+        self._buttons = {
             Button.A: DigitalInOut(board.D5),
             Button.B: DigitalInOut(board.D6),
             Button.UP: DigitalInOut(board.D17),
@@ -23,7 +40,7 @@ class OledController(BaseController):
             Button.CENTER: DigitalInOut(board.D4)
         }
 
-        for button in self._oled_buttons.values():
+        for button in self._buttons.values():
             button.direction = Direction.INPUT
             button.pull = Pull.UP
 
@@ -31,6 +48,6 @@ class OledController(BaseController):
         self.pressed = []
         self.released = []
 
-        for key, button in self._oled_buttons.items():
+        for key, button in self._buttons.items():
             if not button.value:
                 self.pressed.append(key)

@@ -1,19 +1,14 @@
 import board
 import busio
-
 import adafruit_ssd1306
 
 from PIL import Image
 from PIL import ImageDraw
 
-from .base import Display
 
-
-class OledDisplay(Display):
+class Display:
 
     def __init__(self):
-        super().__init__()
-
         i2c = busio.I2C(board.SCL, board.SDA)
         self.display = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
 
