@@ -23,9 +23,9 @@ class Controller:
             Button.A,
             Button.B,
             Button.UP,
-            Button.DOWN,
             Button.LEFT,
             Button.RIGHT,
+            Button.DOWN,
             Button.CENTER
         ]
 
