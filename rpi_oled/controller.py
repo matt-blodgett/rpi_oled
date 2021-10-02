@@ -1,18 +1,9 @@
-import typing
 import enum
 
 import board
 import digitalio
 
-
-class Button(enum.Enum):
-    A = 'A'
-    B = 'B'
-    UP = 'U'
-    LEFT = 'L'
-    RIGHT = 'R'
-    DOWN = 'D'
-    CENTER = 'M'
+from .constants import Button
 
 
 class Controller:
@@ -43,38 +34,40 @@ class Controller:
             pin.direction = digitalio.Direction.INPUT
             pin.pull = digitalio.Pull.UP
 
-    def update(self) -> None:
+    def update(self):
+        self._buttons_pressed = []
+        self._buttons_released = []
         for button, pin in self._button_to_pin_map.items():
             if not pin.value:
                 self._buttons_pressed.append(button)
             else:
                 self._buttons_released.append(button)
 
-    def is_pressed(self, button: Button) -> bool:
+    def is_pressed(self, button):
         return button in self._buttons_pressed
 
-    def is_released(self, button: Button) -> bool:
+    def is_released(self, button):
         return button in self._buttons_released
 
-    def is_pressed_all(self, buttons: typing.List[Button]) -> bool:
+    def is_pressed_all(self, buttons):
         for button in buttons:
             if button not in self._buttons_pressed:
                 return False
         return True
 
-    def is_released_all(self, buttons: typing.List[Button]) -> bool:
+    def is_released_all(self, buttons):
         for button in buttons:
             if button not in self._buttons_released:
                 return False
         return True
 
-    def is_pressed_any(self, buttons: typing.List[Button]) -> bool:
+    def is_pressed_any(self, buttons):
         for button in buttons:
             if button in self._buttons_pressed:
                 return True
         return False
 
-    def is_released_any(self, buttons: typing.List[Button]) -> bool:
+    def is_released_any(self, buttons):
         for button in buttons:
             if button in self._buttons_released:
                 return True
